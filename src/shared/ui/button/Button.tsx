@@ -1,8 +1,12 @@
 import { Button as Btn } from '@mantine/core';
 
-const Button = ({showLaunchDetails}) => {
+type ButtonProps = {
+  showLaunchDetails: () => void;
+};
+
+const Button = ({ showLaunchDetails }: ButtonProps) => {
   return (
-    <Btn variant="filled" radius="md" w="100%" onClick={()=>showLaunchDetails()}>
+    <Btn variant="filled" radius="md" w="100%" onClick={showLaunchDetails}>
       Sea more
     </Btn>
   );

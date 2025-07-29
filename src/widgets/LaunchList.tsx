@@ -1,110 +1,67 @@
 import { useEffect, useReducer } from 'react';
-import LaunchCard from '../entities/LauchCard';
-import axios from 'axios';
+import { getLaunchData } from './model/getLaunchData';
 import { Flex } from '@mantine/core';
+import { initialState, reducer } from './model/reducer';
+import LaunchCard from '../entities/LauchCard';
 import LaunchDetails from '../features/LaunchDetails';
-
-const initialState = {
-  data: [],
-  isOpenModal: false,
-  currentLaunch: null,
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'data':
-      return {
-        ...state,
-        data: action.payload,
-      };
-    case 'isOpenModal':
-      return {
-        ...state,
-        isOpenModal: action.payload,
-      };
-    case 'currentLaunch':
-      return {
-        ...state,
-        currentLaunch: action.payload,
-      };
-    default:
-      return state
-  }
-}
+import type { launchType } from './types/launchTypes';
 
 const LaunchList = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'http://api.spacexdata.com/v3/launches?launch_year=2020',
-        );
-
-        dispatch({
-          type: 'data',
-          payload: response.data,
-        });
-        console.log(response.data);
-      } catch {
-        console.error('Error');
-      }
-    };
-
-    fetchData();
+    getLaunchData().then((launchData) => {
+      dispatch({
+        type: 'data',
+        payload: launchData,
+      });
+    });
   }, []);
 
   const onClose = () => {
-    dispatch ({
+    dispatch({
       type: 'isOpenModal',
-      payload: false
-    })
-  }
+      payload: false,
+    });
+  };
 
-  const showLaunchDetails = (id) => {
-    const findElem = state.data.find(item => item.launch_date_unix === id )
-    console.log(findElem)
+  const showLaunchDetails = (id: launchType['id']) => {
+    const findElem = state.data.find((item: launchType) => item.id === id);
 
     dispatch({
       type: 'isOpenModal',
       payload: true,
-    })
+    });
 
     dispatch({
       type: 'currentLaunch',
-      payload: findElem
-      
-    })
-  }
+      payload: findElem ?? null,
+    });
+  };
 
   return (
-    <Flex
-      w={700}
-      mih={50}
-      gap={24}
-      justify="flex-start"
-      align="flex-start"
-      wrap="wrap"
-    >
-      {state.data.map((item) => {
+    <Flex gap={24} justify="flex-start" align="flex-start" wrap="wrap">
+      {state.data.map((item: launchType) => {
         return (
           <LaunchCard
-            key={item.launch_date_unix}
-            missionName={item.mission_name}
-            rocketName={item.rocket.rocket_name}
-            image={item.links.mission_patch_small}
-            showLaunchDetails={() => showLaunchDetails(item.launch_date_unix)}
+            key={item.id}
+            missionName={item.missionName}
+            rocketName={item.rocketName}
+            image={item.imageSmall}
+            showLaunchDetails={() => showLaunchDetails(item.id)}
           />
         );
       })}
-{state.isOpenModal &&
-      <LaunchDetails 
-        isOpenModal={state.isOpenModal} 
-        onClose={onClose}
-        missionName={state.currentLaunch?.mission_name}
-        rocketName={state.currentLaunch?.rocket.rocket_name}
-        image={state.currentLaunch?.links.mission_patch_small}/>}
+
+      {state.isOpenModal && (
+        <LaunchDetails
+          onClose={onClose}
+          missionName={state.currentLaunch?.missionName}
+          rocketName={state.currentLaunch?.rocketName}
+          image={state.currentLaunch?.image}
+          details={state.currentLaunch?.details}
+        />
+      )}
     </Flex>
   );
 };

@@ -1,21 +1,38 @@
-import { Card, Image, Text, Stack } from '@mantine/core';
+import { Card, Image, Text, Stack, Box } from '@mantine/core';
 import Button from '../shared/ui/button/Button';
+import type { launchType } from '../widgets/types/launchTypes';
+import { memo } from 'react';
 
-const LaunchCard = ({ missionName, rocketName, image, showLaunchDetails }) => {
+type LaunchCardProps = {
+  showLaunchDetails: () => void;
+} & launchType;
+
+const LaunchCard = memo(function LauchCard({
+  missionName,
+  rocketName,
+  image,
+  showLaunchDetails,
+}: LaunchCardProps) {
   return (
-    <Card h={280} w={200} shadow="sm" padding="md" radius="md" withBorder>
+    <Card h={320} w={250} shadow="sm" padding="md" radius="md" withBorder>
       <Stack
         bg="var(--mantine-color-body)"
         align="center"
         justify="space-between"
       >
-        <Image src={image} w={100} mt={10} />
-        <Text fw={700}>{missionName}</Text>
-        <Text c="dimmed">{rocketName}</Text>
-        <Button showLaunchDetails={showLaunchDetails}/>
+        <Box h={100} w={100} mt={25}>
+          <Image src={image} />
+        </Box>
+        <Text lineClamp={1} fw={700} mt={15}>
+          {missionName}
+        </Text>
+        <Text c="dimmed" mb={10}>
+          {rocketName}
+        </Text>
+        <Button showLaunchDetails={showLaunchDetails} />
       </Stack>
     </Card>
   );
-};
+});
 
 export default LaunchCard;

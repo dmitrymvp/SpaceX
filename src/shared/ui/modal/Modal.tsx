@@ -1,16 +1,29 @@
 import { createPortal } from 'react-dom';
 import style from './Modal.module.css';
 import Overlay from '../overlay/Overlay';
+import type { ReactNode } from 'react';
+
+type ModalProps = {
+  children: ReactNode;
+  onClose: () => void;
+};
 
 const modalElement = document.getElementById('modal');
 
-const Modal = ({ children, onClose }) => {
+if (!modalElement) {
+  throw new Error('modalElement не найден');
+}
+
+const Modal = ({ children, onClose }: ModalProps) => {
   return createPortal(
     <>
       <div className={style.modal}>
-      <button className={style.close} onClick={()=> onClose()}>X</button>
-        {children}</div>
-      <Overlay onClose={onClose}/>
+        <button className={style.close} onClick={() => onClose()}>
+          +
+        </button>
+        {children}
+      </div>
+      <Overlay onClose={onClose} />
     </>,
     modalElement,
   );
