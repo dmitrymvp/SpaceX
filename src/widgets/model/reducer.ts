@@ -11,7 +11,7 @@ type Action =
   | { type: 'isOpenModal'; payload: boolean }
   | { type: 'currentLaunch'; payload: launchType | null };
 
-export const initialState = {
+export const initialState: State = {
   data: [],
   isOpenModal: false,
   currentLaunch: null,

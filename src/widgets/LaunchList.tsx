@@ -41,7 +41,7 @@ const LaunchList = () => {
 
   return (
     <Flex gap={24} justify="flex-start" align="flex-start" wrap="wrap">
-      {state.data.map((item: launchType) => {
+      {state.data?.map((item: launchType) => {
         return (
           <LaunchCard
             key={item.id}

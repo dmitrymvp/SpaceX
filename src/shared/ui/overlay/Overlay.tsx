@@ -5,7 +5,7 @@ type OverlayProps = {
 };
 
 const Overlay = ({ onClose }: OverlayProps) => {
-  return <div className={style.overlay} onClick={onClose}></div>;
+  return <div className={style.overlay} onClick={onClose} role="overlay"></div>;
 };
 
 export default Overlay;

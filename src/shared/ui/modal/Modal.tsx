@@ -8,13 +8,13 @@ type ModalProps = {
   onClose: () => void;
 };
 
-const modalElement = document.getElementById('modal');
-
-if (!modalElement) {
-  throw new Error('modalElement не найден');
-}
-
 const Modal = ({ children, onClose }: ModalProps) => {
+  const modalElement = document.getElementById('modal');
+
+  if (!modalElement) {
+    throw new Error('modalElement не найден');
+  }
+
   return createPortal(
     <>
       <div className={style.modal}>

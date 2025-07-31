@@ -2,6 +2,13 @@ import '@testing-library/jest-dom/vitest';
 
 import { vi } from 'vitest';
 
+import { beforeAll, afterEach, afterAll } from 'vitest';
+import { server } from './src/tests/mocks/server';
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
 window.HTMLElement.prototype.scrollIntoView = () => {};

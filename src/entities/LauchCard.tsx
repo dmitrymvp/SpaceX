@@ -1,18 +1,17 @@
 import { Card, Image, Text, Stack, Box } from '@mantine/core';
 import Button from '../shared/ui/button/Button';
 import type { launchType } from '../widgets/types/launchTypes';
-import { memo } from 'react';
 
 type LaunchCardProps = {
   showLaunchDetails: () => void;
 } & launchType;
 
-const LaunchCard = memo(function LauchCard({
+const LaunchCard = ({
   missionName,
   rocketName,
   image,
   showLaunchDetails,
-}: LaunchCardProps) {
+}: LaunchCardProps) => {
   return (
     <Card h={320} w={250} shadow="sm" padding="md" radius="md" withBorder>
       <Stack
@@ -21,7 +20,7 @@ const LaunchCard = memo(function LauchCard({
         justify="space-between"
       >
         <Box h={100} w={100} mt={25}>
-          <Image src={image} />
+          <Image src={image} alt="missionImage" />
         </Box>
         <Text lineClamp={1} fw={700} mt={15}>
           {missionName}
@@ -33,6 +32,6 @@ const LaunchCard = memo(function LauchCard({
       </Stack>
     </Card>
   );
-});
+};
 
 export default LaunchCard;
