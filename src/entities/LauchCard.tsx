@@ -1,6 +1,7 @@
 import { Card, Image, Text, Stack, Box } from '@mantine/core';
 import Button from '../shared/ui/button/Button';
 import type { launchType } from '../widgets/types/launchTypes';
+import skeletonImage from '../shared/img/Image-not-found.png';
 
 type LaunchCardProps = {
   showLaunchDetails: () => void;
@@ -20,7 +21,7 @@ const LaunchCard = ({
         justify="space-between"
       >
         <Box h={100} w={100} mt={25}>
-          <Image src={image} alt="missionImage" />
+          <Image src={image || skeletonImage} alt="missionImage" />
         </Box>
         <Text lineClamp={1} fw={700} mt={15}>
           {missionName}
