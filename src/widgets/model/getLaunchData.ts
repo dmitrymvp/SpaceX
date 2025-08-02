@@ -5,7 +5,7 @@ import type { serverLaunchType } from '../types/launchTypes';
 export const getLaunchData = async () => {
   try {
     const response = await axios.get(
-      'http://api.spacexdata.com/v3/launches?launch_year=2020',
+      'https://api.spacexdata.com/v3/launches?launch_year=2020',
     );
 
     return response.data.map((item: serverLaunchType) => ({
